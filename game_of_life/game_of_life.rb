@@ -1,6 +1,16 @@
 # From the TangoSource's code retreat at February 9th, and mixing the approach from @antillas21
 require 'pry'
 
+class Array
+  def to_s
+    array_string = ""
+    self.each do |item|
+      array_string += " #{item.to_symbol} "
+    end
+    array_string
+  end
+end
+
 class World
   attr_accessor :grid
 
@@ -8,7 +18,13 @@ class World
     @grid = grid
   end
 
-  def draw
+  def draw_grid
+    header
+    @grid.map_cells
+  end
+
+  def header
+    (0..@grid.size).to_a.each { |i| print " #{i} " }; print "\n"
   end
 end
 
@@ -32,6 +48,14 @@ class Grid
       @cells.select { |cell| cell.coordinates[:x] == x and cell.coordinates[:y] == y }.shift.revive!
     end
   end
+
+  def map_cells
+    (0..@size).each do |index|
+      puts "#{@cells.select { |cell| cell.coordinates[:x] == index }.to_s}"
+    end
+  end
+
+
 end
 
 class Cell
@@ -49,4 +73,10 @@ class Cell
   def revive!
     @status = true
   end
+
+  def to_symbol
+    alive? ? "*" : " "
+  end
 end
+
+binding.pry
