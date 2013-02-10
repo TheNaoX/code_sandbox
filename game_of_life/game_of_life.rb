@@ -19,12 +19,24 @@ class World
   end
 
   def draw_grid
-    header
     @grid.map_cells
   end
 
-  def header
-    (0..@grid.size).to_a.each { |i| print " #{i} " }; print "\n"
+  def interact
+    @grid.cells.each do |cell|
+      neighbors = @grid.neighbors? cell
+      cell.live_or_die? neighbors
+    end
+  end
+
+  def play!
+    @grid.seed_cells
+    loop do
+      system("clear")
+      draw_grid
+      interact
+      sleep 1
+    end
   end
 end
 
@@ -89,13 +101,36 @@ class Cell
     @status == true ? true : false
   end
 
+  def die
+    @status = false
+  end
+
   def revive!
+    @status = true
+  end
+
+  def survive
     @status = true
   end
 
   def to_symbol
     alive? ? "*" : " "
   end
+
+  def live_or_die?(neighbors_count)
+    case
+    when neighbors_count > 3
+      die
+    when neighbors_count < 2
+      die
+    when neighbors_count == 3
+      survive
+    when neighbors_count == 2
+      survive if alive?
+    end
+  end
+
 end
 
-binding.pry
+w = World.new(Grid.new(15))
+w.play!
