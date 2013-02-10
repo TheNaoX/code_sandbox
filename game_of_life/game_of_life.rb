@@ -55,7 +55,26 @@ class Grid
     end
   end
 
+  def neighbors?(cell)
+    live_neighbors = map_neighbors(cell)
+    live_neighbors.delete(nil)
+    live_neighbors.count
+  end
 
+  def map_neighbors(cell)
+    neighbors = []
+    for i in -1..1
+      for j in -1..1
+        neighbors << @cells.select do |neighbor| 
+          unless i == 0 and j == 0
+            neighbor.coordinates[:x] == cell.coordinates[:x] + i and neighbor.coordinates[:y] == cell.coordinates[:y] + j 
+          end
+        end.shift
+      end
+    end
+    neighbors.delete(nil)
+    neighbors.map { |neighbor| neighbor if neighbor.alive? }
+  end
 end
 
 class Cell
