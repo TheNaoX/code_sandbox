@@ -1,4 +1,5 @@
 # From the TangoSource's code retreat at February 9th, and mixing the approach from @antillas21
+
 require 'pry'
 
 class Array
@@ -16,6 +17,7 @@ class World
 
   def initialize(grid)
     @grid = grid
+    play!
   end
 
   def draw_grid
@@ -55,9 +57,9 @@ class Grid
   # I'm going to seed the 30% of the grid with cells, just because yes, I'll have a better answer soon :)
   def seed_cells
     total_cells = (@size + 1) ** 2
-    (total_cells * 0.3 ).to_i.times do
+    total_cells.to_i.times do
       x, y = rand(0..@size), rand(0..@size)
-      @cells.select { |cell| cell.coordinates[:x] == x and cell.coordinates[:y] == y }.shift.revive!
+      @cells.select { |cell| cell.coordinates[:x] == x and cell.coordinates[:y] == y }.shift.survive
     end
   end
 
@@ -105,10 +107,6 @@ class Cell
     @status = false
   end
 
-  def revive!
-    @status = true
-  end
-
   def survive
     @status = true
   end
@@ -132,5 +130,4 @@ class Cell
 
 end
 
-w = World.new(Grid.new(15))
-w.play!
+w = World.new(Grid.new(10))
