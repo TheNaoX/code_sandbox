@@ -1,5 +1,7 @@
-var route = function(path){
-  console.log('Started to get: ' + path)
+console.log('Started to get: ' + path)
+var route = {
+  '/admin' : function(path){
+  }
 }
 
 exports.route = route;
