@@ -13,4 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require libs/handlebars
+//= require libs/ember
 //= require_tree .
+
+window.Blog = Ember.Application.create();

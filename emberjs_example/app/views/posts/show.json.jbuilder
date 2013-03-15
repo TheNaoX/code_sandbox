@@ -1,1 +1,1 @@
-json.extract! @post, :created_at, :updated_at
+json.extract! @post, :title, :body, :author_id, :created_at, :updated_at

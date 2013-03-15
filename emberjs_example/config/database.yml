@@ -1,6 +1,6 @@
 configuration: &configuration
   adapter: postgresql
-  encoding: unicode
+  encoding: utf-8
   database: emberjs_example_<%= Rails.env %>
   pool: 5
   username: dev
